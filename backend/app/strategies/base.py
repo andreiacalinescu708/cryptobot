@@ -6,10 +6,11 @@ import pandas as pd
 class BaseStrategy(ABC):
     """Clasa de bază pentru toate strategiile de trading."""
     
-    def __init__(self, name: str, description: str, params: Dict[str, Any] = None):
+    def __init__(self, name: str, description: str, params: Dict[str, Any] = None, risk_level: str = "MEDIUM"):
         self.name = name
         self.description = description
         self.params = params or {}
+        self.risk_level = risk_level
     
     @abstractmethod
     def analyze(self, data: pd.DataFrame) -> Dict[str, Any]:
@@ -36,5 +37,6 @@ class BaseStrategy(ABC):
             "id": self.name.lower().replace(" ", "_"),
             "name": self.name,
             "description": self.description,
+            "risk_level": self.risk_level,
             "params": self.get_default_params(),
         }

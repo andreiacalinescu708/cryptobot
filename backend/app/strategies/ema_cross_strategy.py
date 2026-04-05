@@ -16,7 +16,8 @@ class EMACrossStrategy(BaseStrategy):
         super().__init__(
             name="EMA Cross Strategy",
             description="Strategie bazată pe încrucișarea EMA. Cumpără la Golden Cross (EMA rapidă > EMA lentă) și vinde la Death Cross.",
-            params=params
+            params=params,
+            risk_level="LOW"
         )
         self.params = params or self.get_default_params()
     

@@ -17,7 +17,8 @@ class BollingerBandsStrategy(BaseStrategy):
         super().__init__(
             name="Bollinger Bands Strategy",
             description="Strategie bazată pe benzile Bollinger. Cumpără la banda inferioară, vinde la banda superioară. Indicator de volatilitate.",
-            params=params
+            params=params,
+            risk_level="MEDIUM"
         )
         self.params = params or self.get_default_params()
     

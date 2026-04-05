@@ -19,7 +19,8 @@ class GridStrategy(BaseStrategy):
         super().__init__(
             name="Grid Trading Strategy",
             description="Strategie Grid care plasează ordere la intervale fixe. Ideal pentru piețe laterale. Cumpără jos, vinde sus automat.",
-            params=params
+            params=params,
+            risk_level="HIGH"
         )
         self.params = params or self.get_default_params()
         self.grid_levels: List[float] = []

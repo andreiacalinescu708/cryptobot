@@ -16,7 +16,8 @@ class MACDStrategy(BaseStrategy):
         super().__init__(
             name="MACD Strategy",
             description="Strategie bazată pe MACD. Cumpără la crossover bullish (MACD trece peste semnal) și vinde la crossover bearish.",
-            params=params
+            params=params,
+            risk_level="MEDIUM"
         )
         self.params = params or self.get_default_params()
     

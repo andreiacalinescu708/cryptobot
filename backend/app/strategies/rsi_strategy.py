@@ -16,7 +16,8 @@ class RSIStrategy(BaseStrategy):
         super().__init__(
             name="RSI Strategy",
             description="Strategie bazată pe indicatorul RSI. Cumpără în zona de supravânzare (RSI < 30) și vinde în zona de supracumpărare (RSI > 70).",
-            params=params
+            params=params,
+            risk_level="MEDIUM"
         )
         self.params = params or self.get_default_params()
     
