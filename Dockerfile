@@ -19,5 +19,9 @@ COPY backend/app ./app
 # Port
 EXPOSE 8000
 
+# Copy start script
+COPY start.sh .
+RUN chmod +x start.sh
+
 # Comandă pornire
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./start.sh"]
