@@ -8,7 +8,7 @@ python-binance==1.0.19
 sqlalchemy==2.0.25
 alembic==1.13.1
 python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
+argon2-cffi==23.1.0
 python-multipart==0.0.6
 httpx==0.26.0
 websockets==12.0
