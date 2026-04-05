@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     
     # SendGrid
     SENDGRID_API_KEY: str = os.getenv("SENDGRID_API_KEY", "")
+    FROM_EMAIL: str = os.getenv("FROM_EMAIL", "contact.aidigitals@gmail.com")
     
     class Config:
         env_file = ".env"

@@ -24,7 +24,7 @@ def send_verification_email(to_email: str, code: str) -> bool:
         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
         
         message = Mail(
-            from_email='noreply@cryptobot.app',
+            from_email=settings.FROM_EMAIL,
             to_emails=to_email,
             subject='Codul tău de verificare - CryptoBot',
             html_content=f'''
