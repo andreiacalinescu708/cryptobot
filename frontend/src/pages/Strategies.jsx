@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { strategiesApi, api } from '../services/api'
+import api, { strategiesApi } from '../services/api'
 import { 
   Play, Settings, Info, BarChart3, AlertTriangle, Shield, 
   TrendingUp, X, Check, DollarSign, Clock, Percent 
