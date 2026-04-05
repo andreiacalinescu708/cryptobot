@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/i18nContext'
+import LanguageToggle from '../components/LanguageToggle'
 import api from '../services/api'
 import { Mail, Lock, Check, AlertCircle, RefreshCw } from 'lucide-react'
 
 function VerifyEmail() {
   const navigate = useNavigate()
   const { user, isAuthenticated } = useAuth()
+  const { t } = useI18n()
   
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
@@ -53,7 +56,7 @@ function VerifyEmail() {
     const fullCode = code.join('')
     
     if (fullCode.length !== 6) {
-      setError('Introdu toate cele 6 cifre')
+      setError(t('verify.enterCode'))
       return
     }
     
@@ -68,7 +71,7 @@ function VerifyEmail() {
         window.location.href = '/'
       }, 2000)
     } catch (err) {
-      setError(err.response?.data?.detail || 'Cod invalid')
+      setError(err.response?.data?.detail || t('verify.invalidCode'))
       setCode(['', '', '', '', '', ''])
       document.getElementById('code-0').focus()
     } finally {
@@ -84,7 +87,7 @@ function VerifyEmail() {
       await api.post('/auth/send-verification-code')
       setCountdown(60) // 1 minut cooldown
     } catch (err) {
-      setError(err.response?.data?.detail || 'Eroare la trimitere')
+      setError(err.response?.data?.detail || t('common.error'))
     } finally {
       setResendLoading(false)
     }
@@ -93,22 +96,27 @@ function VerifyEmail() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <p className="text-gray-400">Trebuie să fii autentificat</p>
+        <p className="text-gray-400">{t('common.error')}</p>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4">
+        <LanguageToggle />
+      </div>
+      
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl mb-4">
             <Mail className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white">Verificare Email</h1>
+          <h1 className="text-3xl font-bold text-white">{t('verify.title')}</h1>
           <p className="text-gray-400 mt-2">
-            Am trimis un cod de 6 cifre pe <span className="text-white">{user?.email}</span>
+            {t('verify.sentTo')} <span className="text-white">{user?.email}</span>
           </p>
         </div>
 
@@ -118,8 +126,8 @@ function VerifyEmail() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-success-500/20 rounded-full mb-4">
                 <Check className="w-8 h-8 text-success-500" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Email verificat!</h3>
-              <p className="text-gray-400">Vei fi redirectat...</p>
+              <h3 className="text-xl font-semibold text-white mb-2">{t('verify.success')}</h3>
+              <p className="text-gray-400">{t('verify.redirecting')}</p>
             </div>
           ) : (
             <>
@@ -131,9 +139,12 @@ function VerifyEmail() {
               )}
 
               <form onSubmit={handleSubmit}>
-                <label className="block text-sm font-medium text-gray-300 mb-4 text-center">
-                  Introdu codul de verificare
+                <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
+                  {t('verify.enterCode')}
                 </label>
+                <p className="text-xs text-gray-500 text-center mb-4">
+                  {t('verify.checkSpam')}
+                </p>
                 
                 <div className="flex justify-center gap-2 mb-6">
                   {code.map((digit, index) => (
@@ -159,16 +170,16 @@ function VerifyEmail() {
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Se verifică...
+                      {t('verify.verifying')}
                     </span>
                   ) : (
-                    'Verifică'
+                    t('verify.verifyButton')
                   )}
                 </button>
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-gray-400 text-sm mb-2">Nu ai primit codul?</p>
+                <p className="text-gray-400 text-sm mb-2">{t('verify.noCodeReceived') || "Didn't receive the code?"}</p>
                 <button
                   onClick={handleResend}
                   disabled={resendLoading || countdown > 0}
@@ -177,12 +188,12 @@ function VerifyEmail() {
                   {resendLoading ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      Se trimite...
+                      {t('common.loading')}
                     </>
                   ) : countdown > 0 ? (
-                    `Retrimite în ${countdown}s`
+                    t('verify.resendIn', { seconds: countdown })
                   ) : (
-                    'Retrimite codul'
+                    t('verify.resend')
                   )}
                 </button>
               </div>

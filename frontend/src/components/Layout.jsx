@@ -1,14 +1,17 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/i18nContext'
+import LanguageToggle from './LanguageToggle'
 import { TrendingUp, Settings, LayoutDashboard, Cpu, LogOut, User } from 'lucide-react'
 
 function Layout({ children }) {
   const { user, logout } = useAuth()
+  const { t } = useI18n()
 
   const navItems = [
-    { path: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/strategies', label: 'Strategii', icon: Cpu },
-    { path: '/settings', label: 'Setări', icon: Settings },
+    { path: '/', label: t('nav.dashboard'), icon: LayoutDashboard },
+    { path: '/strategies', label: t('nav.strategies'), icon: Cpu },
+    { path: '/settings', label: t('nav.settings'), icon: Settings },
   ]
 
   return (
@@ -45,6 +48,9 @@ function Layout({ children }) {
 
         {/* User Section */}
         <div className="p-4 border-t border-gray-700">
+          <div className="flex items-center justify-between px-4 py-2 mb-2">
+            <LanguageToggle />
+          </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
@@ -61,7 +67,7 @@ function Layout({ children }) {
             className="w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-lg transition-colors"
           >
             <LogOut className="w-5 h-5" />
-            <span>Deconectare</span>
+            <span>{t('auth.logout')}</span>
           </button>
         </div>
       </aside>

@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { I18nProvider } from './context/i18nContext'
 import Layout from './components/Layout'
 import PrivateRoute from './components/PrivateRoute'
 import EmailVerifiedRoute from './components/EmailVerifiedRoute'
@@ -12,7 +13,8 @@ import VerifyEmail from './pages/VerifyEmail'
 
 function App() {
   return (
-    <AuthProvider>
+    <I18nProvider>
+      <AuthProvider>
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
@@ -48,7 +50,8 @@ function App() {
           </EmailVerifiedRoute>
         } />
       </Routes>
-    </AuthProvider>
+      </AuthProvider>
+    </I18nProvider>
   )
 }
 

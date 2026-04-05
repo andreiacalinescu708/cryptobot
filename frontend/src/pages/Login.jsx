@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/i18nContext'
+import LanguageToggle from '../components/LanguageToggle'
 import api from '../services/api'
 import { TrendingUp, Mail, Lock, AlertCircle } from 'lucide-react'
 
@@ -44,6 +46,11 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4">
+        <LanguageToggle />
+      </div>
+      
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
