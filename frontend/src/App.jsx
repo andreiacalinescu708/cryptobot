@@ -7,6 +7,7 @@ import Strategies from './pages/Strategies'
 import Settings from './pages/Settings'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import VerifyEmail from './pages/VerifyEmail'
 
 function App() {
   return (
@@ -15,6 +16,13 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
+        {/* Email Verification */}
+        <Route path="/verify-email" element={
+          <PrivateRoute>
+            <VerifyEmail />
+          </PrivateRoute>
+        } />
         
         {/* Protected Routes */}
         <Route path="/" element={

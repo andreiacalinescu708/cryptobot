@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     # CORS - Frontend URL (set in Railway)
     FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:3002")
     
+    # SendGrid
+    SENDGRID_API_KEY: str = os.getenv("SENDGRID_API_KEY", "")
+    
     class Config:
         env_file = ".env"
 

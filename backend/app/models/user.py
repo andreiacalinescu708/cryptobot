@@ -26,3 +26,4 @@ class User(Base):
     strategy_config = relationship("StrategyConfig", back_populates="user", uselist=False)
     trades = relationship("Trade", back_populates="user")
     payments = relationship("Payment", back_populates="user")
+    email_verifications = relationship("EmailVerification", back_populates="user")

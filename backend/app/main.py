@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.database import engine, Base
-from app.api import strategies, auth, api_keys, strategy_config, dashboard
+from app.api import strategies, auth, api_keys, strategy_config, dashboard, verify_email
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -37,6 +37,7 @@ app.include_router(strategies.router)
 app.include_router(api_keys.router)
 app.include_router(strategy_config.router)
 app.include_router(dashboard.router)
+app.include_router(verify_email.router)
 
 
 @app.get("/")
