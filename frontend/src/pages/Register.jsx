@@ -37,11 +37,16 @@ function Register() {
     try {
       await register(formData.email, formData.password, formData.fullName)
       
+      // Debug: verifică dacă tokenul e setat
+      console.log('Token în localStorage:', localStorage.getItem('token') ? 'EXISTS' : 'MISSING')
+      console.log('API headers:', api.defaults.headers.common['Authorization'] ? 'SET' : 'NOT SET')
+      
       // Trimite automat codul de verificare
       try {
-        await api.post('/auth/send-verification-code')
+        const response = await api.post('/auth/send-verification-code')
+        console.log('Email trimis cu succes:', response.data)
       } catch (emailErr) {
-        console.error('Eroare trimitere email:', emailErr)
+        console.error('Eroare trimitere email:', emailErr.response?.status, emailErr.response?.data)
         // Continuăm chiar dacă emailul nu merge, userul poate retrimite manual
       }
       
