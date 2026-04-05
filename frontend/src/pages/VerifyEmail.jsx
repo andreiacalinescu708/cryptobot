@@ -16,11 +16,11 @@ function VerifyEmail() {
   const [countdown, setCountdown] = useState(0)
 
   useEffect(() => {
-    // Dacă userul e deja verificat, redirect
-    if (user?.is_verified) {
+    // Dacă userul e deja verificat și nu tocmai am verificat acum, redirect
+    if (user?.is_verified && !success) {
       navigate('/')
     }
-  }, [user, navigate])
+  }, [user, navigate, success])
 
   useEffect(() => {
     if (countdown > 0) {
@@ -64,7 +64,8 @@ function VerifyEmail() {
       await api.post('/auth/verify-code', { code: fullCode })
       setSuccess(true)
       setTimeout(() => {
-        navigate('/')
+        // Force reload to get fresh user data
+        window.location.href = '/'
       }, 2000)
     } catch (err) {
       setError(err.response?.data?.detail || 'Cod invalid')
