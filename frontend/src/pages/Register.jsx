@@ -35,7 +35,17 @@ function Register() {
 
     try {
       await register(formData.email, formData.password, formData.fullName)
-      navigate('/')
+      
+      // Trimite automat codul de verificare
+      try {
+        await api.post('/auth/send-verification-code')
+      } catch (emailErr) {
+        console.error('Eroare trimitere email:', emailErr)
+        // Continuăm chiar dacă emailul nu merge, userul poate retrimite manual
+      }
+      
+      // Redirect la verificare email
+      navigate('/verify-email')
     } catch (err) {
       setError(err.response?.data?.detail || 'Eroare la înregistrare')
     } finally {

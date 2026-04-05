@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/Layout'
 import PrivateRoute from './components/PrivateRoute'
+import EmailVerifiedRoute from './components/EmailVerifiedRoute'
 import Dashboard from './pages/Dashboard'
 import Strategies from './pages/Strategies'
 import Settings from './pages/Settings'
@@ -17,34 +18,34 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         
-        {/* Email Verification */}
+        {/* Email Verification - nu necesită email verificat */}
         <Route path="/verify-email" element={
-          <PrivateRoute>
+          <EmailVerifiedRoute requireVerified={false}>
             <VerifyEmail />
-          </PrivateRoute>
+          </EmailVerifiedRoute>
         } />
         
-        {/* Protected Routes */}
+        {/* Protected Routes - necesită email verificat */}
         <Route path="/" element={
-          <PrivateRoute>
+          <EmailVerifiedRoute requireVerified={true}>
             <Layout>
               <Dashboard />
             </Layout>
-          </PrivateRoute>
+          </EmailVerifiedRoute>
         } />
         <Route path="/strategies" element={
-          <PrivateRoute>
+          <EmailVerifiedRoute requireVerified={true}>
             <Layout>
               <Strategies />
             </Layout>
-          </PrivateRoute>
+          </EmailVerifiedRoute>
         } />
         <Route path="/settings" element={
-          <PrivateRoute>
+          <EmailVerifiedRoute requireVerified={true}>
             <Layout>
               <Settings />
             </Layout>
-          </PrivateRoute>
+          </EmailVerifiedRoute>
         } />
       </Routes>
     </AuthProvider>

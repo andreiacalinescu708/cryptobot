@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import api from '../services/api'
 import { TrendingUp, Mail, Lock, AlertCircle } from 'lucide-react'
 
 function Login() {
@@ -20,8 +21,20 @@ function Login() {
     setLoading(true)
 
     try {
-      await login(formData.email, formData.password)
-      navigate('/')
+      const user = await login(formData.email, formData.password)
+      
+      // Verifică dacă emailul e verificat
+      if (!user.is_verified) {
+        // Trimite codul automat
+        try {
+          await api.post('/auth/send-verification-code')
+        } catch (emailErr) {
+          console.error('Eroare trimitere email:', emailErr)
+        }
+        navigate('/verify-email')
+      } else {
+        navigate('/')
+      }
     } catch (err) {
       setError(err.response?.data?.detail || 'Eroare la autentificare')
     } finally {
