@@ -18,15 +18,21 @@ def get_current_user(
     Get current user from JWT token.
     Used for protected endpoints.
     """
+    import logging
     token = credentials.credentials
+    logging.info(f"Received token: {token[:20]}...")
+    
     payload = decode_access_token(token)
     
     if payload is None:
+        logging.error(f"Failed to decode token")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token invalid sau expirat",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    logging.info(f"Token decoded successfully, payload: {payload}")
     
     user_id: Optional[int] = payload.get("sub")
     if user_id is None:
