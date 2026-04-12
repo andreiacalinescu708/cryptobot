@@ -18,14 +18,30 @@ from app.core.config import get_settings
 settings = get_settings()
 
 # CORS pentru frontend React
+import os
+
+# Lista tuturor originurilor permise
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3002",
+    "http://localhost:5173",
+    "https://frontend-rho-lyart-66.vercel.app",  # Alias principal
+]
+
+# Adaugă FRONTEND_URL din env dacă există
+if settings.FRONTEND_URL:
+    ALLOWED_ORIGINS.append(settings.FRONTEND_URL)
+
+# Adaugă toate originile Vercel pentru acest proiect
+vercel_origins = os.getenv("VERCEL_ORIGINS", "").split(",")
+ALLOWED_ORIGINS.extend([o.strip() for o in vercel_origins if o.strip()])
+
+# Remove duplicates while preserving order
+ALLOWED_ORIGINS = list(dict.fromkeys(ALLOWED_ORIGINS))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:3002",
-        "http://localhost:5173",
-        settings.FRONTEND_URL,  # Production frontend URL
-    ],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
